@@ -17,6 +17,10 @@ pub fn string_to_vec_ints(data: &str) -> Vec<i32> {
     data.split(' ').map(|s| s.parse::<i32>().unwrap()).collect()
 }
 
+pub fn string_to_vec_str(data: &str) -> Vec<i32> {
+    data.split(' ').map(|s| s.parse::<i32>().unwrap()).collect()
+}
+
 // join strings together up to blank lines
 pub fn join_lines(data: &[String]) -> Vec<String> {
     let mut strings: Vec<String> = vec![];
