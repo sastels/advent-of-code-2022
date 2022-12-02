@@ -1,6 +1,6 @@
 # Advent of Code 2022
 
-![CI](https://github.com/sastels/advent-of-code-2022/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/sastels/advent-of-code-2022/actions/workflows/ci.yml/badge.svg?branch=main)
 
 
 Advent of Code 2022 in Rust
