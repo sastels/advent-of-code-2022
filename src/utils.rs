@@ -13,8 +13,8 @@ where
     together
 }
 
-pub fn string_to_vec_ints(data: &String) -> Vec<i32> {
-    data.split(" ").map(|s| s.parse::<i32>().unwrap()).collect()
+pub fn string_to_vec_ints(data: &str) -> Vec<i32> {
+    data.split(' ').map(|s| s.parse::<i32>().unwrap()).collect()
 }
 
 // join strings together up to blank lines
