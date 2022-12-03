@@ -23,7 +23,8 @@
 				"tamasfe.even-better-toml",
 				"serayuzgur.crates",
 				"swellaby.vscode-rust-test-adapter",
-				"ms-vscode.test-adapter-converter"
+				"ms-vscode.test-adapter-converter",
+				"github.copilot"
 			],
 			"settings": {
 				"lldb.executable": "/usr/bin/lldb",
