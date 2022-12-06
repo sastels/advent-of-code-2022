@@ -1,9 +1,9 @@
 use std::collections::HashSet;
 
-pub fn solve(tuple_size: usize, data: &str) -> usize {
-    (0..(data.len() - tuple_size))
-        .map(|i| (i + tuple_size, &data[i..i + tuple_size]))
-        .filter(|(_i, s)| s.chars().collect::<HashSet<_>>().len() == tuple_size)
+pub fn solve(window_size: usize, data: &str) -> usize {
+    (0..(data.len() - window_size))
+        .map(|i| (i + window_size, &data[i..i + window_size]))
+        .filter(|(_i, s)| s.chars().collect::<HashSet<_>>().len() == window_size)
         .map(|(i, _s)| i)
         .next()
         .unwrap()
