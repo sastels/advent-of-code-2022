@@ -1,5 +1,5 @@
 use advent_2022::utils::read_lines;
-use advent_2022::{day01, day02, day03, day04};
+use advent_2022::{day01, day02, day03, day04, day05};
 use std::env;
 
 fn main() {
@@ -29,7 +29,11 @@ fn main() {
             println!("Day 4 A: {}", day04::solve_a(&data));
             println!("Day 4 B: {}", day04::solve_b(&data));
         }
-
+        "5" => {
+            let data = read_lines("./data/day05.txt");
+            println!("Day 5 A: {}", day05::solve_a(&data));
+            println!("Day 5 B: {}", day05::solve_b(&data));
+        }
         _ => panic!("usage: cargo run n for n in 1..=24"),
     }
 }
