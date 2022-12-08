@@ -23,7 +23,7 @@ pub fn parse_dir_listing(line: &str) -> Option<(usize, String)> {
 
 pub fn digest_data(data: &[String]) -> (Vec<String>, HashMap<String, usize>) {
     let mut dir_stack = vec![];
-    let mut dirs = vec![];
+    let mut dirs = vec!["root".to_string()];
     let mut file_size: HashMap<String, usize> = HashMap::new();
 
     for line in data {
@@ -44,23 +44,36 @@ pub fn digest_data(data: &[String]) -> (Vec<String>, HashMap<String, usize>) {
     (dirs, file_size)
 }
 
+pub fn dir_size(dir: &str, file_size: &HashMap<String, usize>) -> usize {
+    let mut total_size = 0;
+    for (path, size) in file_size {
+        if path.starts_with(dir) {
+            total_size += size;
+        }
+    }
+    total_size
+}
+
 pub fn solve_a(data: &[String]) -> usize {
     let (dirs, file_size) = digest_data(data);
     let mut small_dir_sum = 0;
     for dir in dirs {
-        let mut total_size = 0;
-        for (path, size) in &file_size {
-            if path.starts_with(&dir) {
-                total_size += size;
-            }
-        }
-        if total_size < 100000 {
-            small_dir_sum += total_size;
+        if dir_size(&dir, &file_size) < 100000 {
+            small_dir_sum += dir_size(&dir, &file_size);
         }
     }
     small_dir_sum
 }
 
 pub fn solve_b(data: &[String]) -> usize {
-    data.len()
+    let (dirs, file_size) = digest_data(data);
+    let size_needed = 30000000 - (70000000 - dir_size("root", &file_size));
+    let mut smallest_dir_to_delete = dir_size("root", &file_size);
+    for dir in dirs {
+        let size = dir_size(&dir, &file_size);
+        if size > size_needed && size < smallest_dir_to_delete {
+            smallest_dir_to_delete = dir_size(&dir, &file_size);
+        }
+    }
+    smallest_dir_to_delete
 }
