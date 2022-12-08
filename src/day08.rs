@@ -21,6 +21,7 @@ pub fn is_visible(y0: usize, x0: usize, forest: &[Vec<u32>]) -> bool {
             == 0)
 }
 
+#[allow(clippy::needless_range_loop)]
 pub fn scene_score(y0: usize, x0: usize, forest: &[Vec<u32>]) -> usize {
     let mut score = 1;
     let width = forest[0].len();
