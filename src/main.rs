@@ -57,7 +57,7 @@ fn main() {
         "10" => {
             let data = read_lines("./data/day10.txt");
             println!("Day {} A: {}", day.as_str(), day10::solve_a(&data));
-            println!("Day {} B: {}", day.as_str(), day10::solve_b(&data));
+            day10::solve_b(&data);
         }
         _ => panic!("usage: cargo run n for n in 1..=24"),
     }

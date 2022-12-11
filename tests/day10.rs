@@ -19,5 +19,8 @@ fn test_solve_a() {
 #[test]
 fn test_solve_b() {
     let data = read_lines(TEST_FILE);
-    assert_eq!(solve_b(&data), 0);
+    let pixels = solve_b(&data);
+    assert_eq!(pixels[0..5], vec![true, true, false, false, true]);
+    assert_eq!(pixels[40..45], vec![true, true, true, false, false]);
+    assert_eq!(pixels[80..85], vec![true, true, true, true, false]);
 }
