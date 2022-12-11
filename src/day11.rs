@@ -65,7 +65,8 @@ pub fn one_monkey_round(monkeys: &[Monkey], index: usize, divide_by: usize) -> V
 
     monkey.items.iter().for_each(|old| {
         let mut new = (monkey.operation)(*old) / divide_by;
-        // new = new % (23 * 19 * 13 * 17);
+        let modulus: usize = monkeys.iter().map(|m| m.test.0).product();
+        new %= modulus;
         let new_monkey_index = if new % monkey.test.0 == 0 {
             monkey.test.1
         } else {

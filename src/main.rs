@@ -62,7 +62,7 @@ fn main() {
         "11" => {
             let monkeys = day11::real_monkeys();
             println!("Day {} A: {}", day.as_str(), day11::solve_a(&monkeys));
-            // println!("Day {} B: {}", day.as_str(), day11::solve_b(&data));
+            println!("Day {} B: {}", day.as_str(), day11::solve_b(&monkeys));
         }
         _ => panic!("usage: cargo run n for n in 1..=24"),
     }
