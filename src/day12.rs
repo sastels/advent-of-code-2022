@@ -38,7 +38,7 @@ pub fn parse_input(data: &[String]) -> Vec<Vec<usize>> {
     map
 }
 
-pub fn neighbours(p: &Pos, map: &Vec<Vec<usize>>) -> Vec<Pos> {
+pub fn neighbours(p: &Pos, map: &[Vec<usize>]) -> Vec<Pos> {
     let max_y = (map[0].len() - 1) as i32;
     let max_x = (map.len() - 1) as i32;
     let height_p = map[p.0][p.1];
@@ -63,11 +63,18 @@ pub fn find_zero_height_points(map: &[Vec<usize>]) -> Vec<Pos> {
     }
     result
 }
+
+fn shortest_path(map: &[Vec<usize>], start: &Pos, end: &Pos) -> usize {
+    bfs(start, |p| neighbours(p, map), |p| *p == *end)
+        .unwrap_or_else(|| vec![Pos(0, 0); 10000])
+        .len()
+        - 1
+}
+
 pub fn solve_a(data: &[String]) -> usize {
     let (start, end) = find_start_end(data);
     let map = parse_input(data);
-    let result = bfs(&start, |p| neighbours(p, &map), |p| *p == end).unwrap();
-    result.len() - 1
+    shortest_path(&map, &start, &end)
 }
 
 pub fn solve_b(data: &[String]) -> usize {
@@ -76,12 +83,7 @@ pub fn solve_b(data: &[String]) -> usize {
     let zero_height_points = find_zero_height_points(&map);
     zero_height_points
         .iter()
-        .map(|p| {
-            bfs(p, |p| neighbours(p, &map), |p| *p == end)
-                .unwrap_or_else(|| vec![Pos(0, 0); 100000])
-                .len()
-                - 1
-        })
+        .map(|p| shortest_path(&map, p, &end))
         .min()
         .unwrap()
 }
