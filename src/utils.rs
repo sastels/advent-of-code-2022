@@ -44,3 +44,10 @@ pub fn join_lines(data: &[String]) -> Vec<String> {
     }
     strings
 }
+
+#[derive(Copy, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+pub struct Pos(pub i32, pub i32);
+
+pub fn l1_distance(a: &Pos, b: &Pos) -> u32 {
+    (a.0 - b.0).unsigned_abs() + (a.1 - b.1).unsigned_abs()
+}
