@@ -21,5 +21,5 @@ fn test_solve_a() {
 #[test]
 fn test_solve_b() {
     let data = read_lines(TEST_FILE);
-    assert_eq!(solve_b(&data), 0);
+    assert_eq!(solve_b(&data, 20), Some(56000011));
 }

@@ -4,5 +4,5 @@ use advent_2022::utils::read_lines;
 fn main() {
     let data = read_lines("./data/day15.txt");
     println!("A: {}", solve_a(&data, 2000000));
-    println!("B: {}", solve_b(&data));
+    println!("B: {:?}", solve_b(&data, 4000000));
 }

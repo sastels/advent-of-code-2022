@@ -1,5 +1,5 @@
+use crate::intervals::merge_intervals;
 use crate::utils::{l1_distance, Pos};
-use itertools::Itertools;
 use regex::Regex;
 
 #[derive(Clone)]
@@ -62,6 +62,30 @@ pub fn solve_a(data: &[String], y0: i32) -> usize {
     num_no_beacons
 }
 
-pub fn solve_b(data: &[String]) -> usize {
-    data.len()
+pub fn solve_b(data: &[String], bound: i32) -> Option<i64> {
+    let sensors = data
+        .iter()
+        .map(|line| parse_line(line))
+        .collect::<Vec<Sensor>>();
+
+    for y in 0..=bound {
+        let mut intervals: Vec<(i32, i32)> = sensors
+            .iter()
+            .filter_map(|sensor| {
+                if (y - sensor.pos.1).unsigned_abs() <= sensor.beacon_dist {
+                    let dist = sensor.beacon_dist - (y - sensor.pos.1).unsigned_abs();
+                    let x_min = sensor.pos.0 - dist as i32;
+                    let x_max = sensor.pos.0 + dist as i32;
+                    Some((x_min, x_max))
+                } else {
+                    None
+                }
+            })
+            .collect();
+        intervals = merge_intervals(intervals);
+        if intervals.len() > 1 {
+            return Some((intervals[0].1 + 1) as i64 * 4000000 + y as i64);
+        }
+    }
+    None
 }
