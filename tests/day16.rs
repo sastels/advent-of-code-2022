@@ -1,5 +1,6 @@
 use advent_2022::day16::{
-    dist, get_closed_valves, parse_room, parse_rooms, solve_a, solve_b, Room,
+    compute_score, dist, get_closed_valves, parse_room, parse_rooms, rooms_ordered_by_score,
+    solve_a, solve_b, Room,
 };
 use advent_2022::utils::read_lines;
 use itertools::sorted;
@@ -47,14 +48,44 @@ fn test_dist() {
     assert_eq!(dist(&"GG".to_string(), &"BB".to_string(), &rooms), 5);
 }
 
+// real order: DD, BB, JJ, HH, EE, CC (minute 24)
+//             20  13  21  22   3   2
+
+#[test]
+fn test_compute_score() {
+    let data = read_lines(TEST_FILE);
+    let rooms = parse_rooms(&data);
+    let order: Vec<String> = "DD, BB, JJ, HH, EE, CC"
+        .split(", ")
+        .map(|s| s.to_string())
+        .collect();
+
+    assert_eq!(compute_score(&order, &rooms, 1), 0);
+    assert_eq!(compute_score(&order, &rooms, 2), 0);
+    assert_eq!(compute_score(&order, &rooms, 3), 20);
+    assert_eq!(compute_score(&order, &rooms, 4), 40);
+    assert_eq!(compute_score(&order, &rooms, 5), 60);
+    assert_eq!(compute_score(&order, &rooms, 6), 93);
+    assert_eq!(compute_score(&order, &rooms, 30), 1651);
+}
+
+#[test]
+fn test_rooms_ordered_by_score() {
+    let data = read_lines(TEST_FILE);
+    let rooms = parse_rooms(&data);
+
+    let order = rooms_ordered_by_score(&rooms);
+    assert_eq!(order, vec!["HH", "JJ", "DD", "BB", "EE", "CC"]);
+}
+
 #[test]
 fn test_solve_a() {
     let data = read_lines(TEST_FILE);
-    assert_eq!(solve_a(&data), 1651);
+    assert_eq!(solve_a(&data, 10, 10000), 1651);
 }
 
 #[test]
 fn test_solve_b() {
     let data = read_lines(TEST_FILE);
-    assert_eq!(solve_b(&data), 0);
+    assert_eq!(solve_b(&data, 10000), 1707);
 }
