@@ -17,6 +17,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				"bierner.markdown-mermaid",
 				"vadimcn.vscode-lldb",
 				"mutantdino.resourcemonitor",
 				"rust-lang.rust-analyzer",

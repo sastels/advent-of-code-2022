@@ -1,7 +1,7 @@
-use advent_2022::day09::{solve_a, solve_b};
+use advent_2022::day01::{solve_a, solve_b};
 use advent_2022::utils::read_lines;
 
-const TEST_FILE: &str = "./test_data/day09.txt";
+const TEST_FILE: &str = "./test_data/day01.txt";
 
 #[ignore]
 #[test]
