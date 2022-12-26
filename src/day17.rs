@@ -117,6 +117,79 @@ pub fn solve_a(data: &[String], num_rocks: usize) -> usize {
     height_of_pile
 }
 
-pub fn solve_b(data: &[String]) -> usize {
-    data.len()
+pub fn find_cycle(data: &[String], num_rocks: usize, diff_sum_cycle_start: u64) -> usize {
+    let jets = &data[0];
+    let mut rock_pile = vec![vec!['-'; CAVE_WIDTH]];
+    let mut jet_index = 0;
+    let mut height_of_pile = 0;
+    let mut old_height_of_pile = 0;
+    let mut diffs = vec![];
+    let mut all_diffs = vec![];
+    let mut in_prefix = true;
+    let mut in_cycle = false;
+    let mut prefix = vec![];
+    let mut cycle = vec![];
+
+    for rock_index in 0..num_rocks {
+        let rock_starting_height = height_of_pile + 4;
+        for _ in rock_pile.len()..(rock_starting_height + 5) {
+            rock_pile.push(vec!['.'; CAVE_WIDTH]);
+        }
+        let mut rock = new_rock(rock_index % 5, rock_starting_height as i32);
+
+        loop {
+            if jets.chars().nth(jet_index) == Some('<') {
+                rock = move_rock_left(&rock, &rock_pile);
+            } else {
+                rock = move_rock_right(&rock, &rock_pile);
+            }
+            jet_index = (jet_index + 1) % jets.len();
+            let (new_rock, moved) = move_rock_down(&rock, &rock_pile);
+            if moved {
+                rock = new_rock.clone();
+            } else {
+                add_rock_to_pile(&rock, &mut rock_pile);
+
+                height_of_pile = max(
+                    height_of_pile,
+                    rock.iter().map(|p| p.1).max().unwrap() as usize,
+                );
+                break;
+            }
+        }
+        let diff: u64 = height_of_pile as u64 - old_height_of_pile as u64;
+        diffs.push(diff);
+        all_diffs.push(diff);
+        old_height_of_pile = height_of_pile;
+
+        if diff == 4 {
+            let diff_sum = diffs.iter().sum::<u64>();
+            println!("{}: diff_sum {}", rock_index, diff_sum);
+            if in_prefix {
+                prefix.extend(diffs);
+            } else if in_cycle {
+                cycle.extend(diffs);
+            }
+            if diff_sum == diff_sum_cycle_start && in_prefix {
+                in_prefix = false;
+                in_cycle = true;
+            } else if diff_sum == diff_sum_cycle_start && in_cycle {
+                in_cycle = false;
+            }
+            diffs = vec![];
+        }
+    }
+    println!("prefix: {:?}", prefix);
+    println!("cycle: {:?}", cycle);
+
+    height_of_pile
+}
+
+pub fn solve_b(num_rocks: u64, prefix: &[u64], cycle: &[u64]) -> u64 {
+    let prefix_sum = prefix.iter().sum::<u64>();
+    let cycle_sum = cycle.iter().sum::<u64>();
+    let num_cycles = (num_rocks - prefix.len() as u64) / cycle.len() as u64;
+    let num_remaining = (num_rocks - prefix.len() as u64) % cycle.len() as u64;
+    let remaining_sum = cycle[0..num_remaining as usize].iter().sum::<u64>();
+    prefix_sum + num_cycles * cycle_sum + remaining_sum
 }
